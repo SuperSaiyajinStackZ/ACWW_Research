@@ -1,0 +1,11 @@
+
+*.o
+*.d
+*.map
+*.lst
+*.smdh
+*.elf
+*.3dsx
+*.bin
+ACWW-Utils/3DS/build/sprites.h
+*.t3x

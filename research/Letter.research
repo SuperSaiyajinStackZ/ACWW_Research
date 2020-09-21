@@ -1,0 +1,150 @@
+/*
+	Researched by: SuperSaiyajinStackZ.
+	Topic: AC:WW Letter Structure for Europe | USA, Japanese & Korean.
+	Additional Note: EUR & USA are the same. EUR, USA, JPN uses the special encoding table, which is inside Encoding.research.
+	Last edited date: September, 21th 2020.
+*/
+
+/*
+	PaperID enum class.
+	The id's for each paper are commented next to the name.
+	I assume the indexes are like that. Confirmation will follow.
+*/
+enum class PaperIDs : uint8_t {
+	Butterfly_Paper,	// 0x0.
+	Airmail_Paper,		// 0x1.
+	New_Years_Cards,	// 0x2.
+	Lacy_Paper,			// 0x3.
+	Cloudy_Paper,		// 0x4.
+	Petal_Paper,		// 0x5.
+	Snowy_Paper,		// 0x6.
+	Maple_leaf_Paper,	// 0x7.
+	Lined_Paper,		// 0x8.
+	Notebook_Paper,		// 0x9.
+	Flowery_Paper,		// 0xA.
+	Polka_dot_Paper,	// 0xB.
+	Bottle_Paper,		// 0xC.
+	Ribbon_Paper,		// 0xD.
+	Sparkly_Paper,		// 0xE.
+	Vine_Paper,			// 0xF.
+	Formal_Paper,		// 0x10.
+	Snowman_Paper,		// 0x11.
+	Card_Paper,			// 0x12.
+	Leopard_Paper,		// 0x13.
+	Cow_Paper,			// 0x14.
+	Camouflage_Paper,	// 0x15.
+	Hamburger_Paper,	// 0x16.
+	Piano_Paper,		// 0x17.
+	Nook_Paper,			// 0x18.
+	Fox_Paper,			// 0x19.
+	Birthday_Cards,		// 0x1A.
+	Four_leaf_Paper,	// 0x1B.
+	Town_hall_Paper,	// 0x1C.
+	Tortimer_Paper,		// 0x1D.
+	Insurance_Paper,	// 0x1E.
+	Academy_Paper,		// 0x1F.
+	Lovely_Paper,		// 0x20.
+	Rainbow_Paper,		// 0x21.
+	Egyptian_Paper,		// 0x22.
+	Lotus_Paper,		// 0x23.
+	Tile_Paper,			// 0x24.
+	Mosaic_Paper,		// 0x25.
+	Elegant_Paper,		// 0x26.
+	Town_View_Paper,	// 0x27.
+	Chinese_Paper,		// 0x28.
+	Ocean_Paper,		// 0x29.
+	Industrial_Paper,	// 0x2A.
+	Fireworks_Paper,	// 0x2B.
+	Floral_Paper,		// 0x2C.
+	Mushroom_Paper,		// 0x2D.
+	Star_Paper,			// 0x2E.
+	Composer_Paper,		// 0x2F.
+	Bathtub_Paper,		// 0x30.
+	SMB3_Paper,			// 0x31.
+	Cool_Paper,			// 0x32.
+	Forest_Paper,		// 0x33.
+	Bubble_Paper,		// 0x34.
+	Buttercup_Paper,	// 0x35.
+	Tartan_Paper,		// 0x36.
+	Plaid_Paper,		// 0x37.
+	Lemon_lime_Paper,	// 0x38.
+	Crater_Paper,		// 0x39.
+	Bejeweled_Paper,	// 0x3A.
+	Geometric_Paper,	// 0x3B.
+	Southwest_Paper,	// 0x3C.
+	Night_Sky_Paper,	// 0x3D.
+	Chic_Paper,			// 0x3E.
+	Goldfish_Paper		// 0x3F.
+};
+
+
+/*
+	AC:WW Letter Struct [EUR | USA].
+	Size: 0xF4.
+*/
+struct EUR_USA_LETTER {
+	uint16_t TownID; // 0x0 - 0x1.
+	uint8_t TownName[0x8]; // 8 Characters is the limit. 0x2 - 0x9.
+	uint8_t Unresearched1[0xE]; // 0xA - 0x17.
+	uint16_t TownID2; // 0x18 - 0x19.
+	uint8_t TownName2[0x8]; // 8 Characters is the limit. 0x1A - 0x21.
+	uint16_t PlayerID; // 0x22 - 0x23.
+	uint8_t PlayerName[0x7]; // 7 Characters is the limit. 0x24 - 0x2A.
+	uint8_t Unresearched2[0x5]; // 0x2B - 0x2F.
+	char Intro[0x18]; // 24 Characters is the limit. 0x30 - 0x47.
+	char Body[0x81]; // 129 Characters is the limit. 0x48 - 0xC7.
+	char End[0x20]; // 32 Characters is the limit. 0xC8 - 0xE7.
+	uint8_t Unresearched3; // 0xE8.
+	PaperIDs PaperID; // 0xE9.
+	uint8_t Unresearched4[0x2]; // 0xEA - 0xEB.
+	uint16_t Item; // 0xEC - 0xED.
+	uint8_t Unresearched5[0x6]; // 0x3F - 0xF3.
+};
+
+
+/*
+	AC:WW Letter Struct [JPN].
+	Size: 0x8C.
+*/
+struct JPN_LETTER {
+	uint16_t TownID; // 0x0 - 0x1.
+	uint8_t TownName[0x6]; // 6 Characters is the limit. 0x2 - 0x7.
+	uint8_t Unresearched1[0xC]; // 0x8 - 0x13.
+	uint16_t TownID2; // 0x14 - 0x15.
+	uint8_t TownName2[0x6]; // 6 Characters is the limit. 0x16 - 0x1B.
+	uint16_t PlayerID; // 0x1C - 0x1D.
+	uint8_t PlayerName[0x6]; // 6 Characters is the limit. 0x1E - 0x23.
+	uint8_t Unresearched2[0x4]; // 0x24 - 0x27.
+	uint8_t Intro[0xA]; // 10 Characters is the limit. 0x28 - 0x30.
+	uint8_t Body[0x40]; // 64 Characters is the limit. 0x32 - 0x71.
+	uint8_t End[0x10]; // 16 Characters is the limit. 0x72 - 0x81.
+	uint8_t Unresearched3; // 0x82.
+	PaperIDs PaperID; // 0x83.
+	uint8_t Unresearched4[0x2]; // 0x84 - 0x85.
+	uint16_t Item; // 0x86 - 0x87.
+	uint8_t Unresearched5[0x4]; // 0x88 - 0x8B.
+};
+
+
+/*
+	AC:WW Letter Struct [KOR].
+	Size: 0x100.
+*/
+struct KOR_LETTER {
+	uint16_t TownID; // 0x0 - 0x1.
+	uint16_t TownName[6]; // 6 Characters is the limit. 0x2 - 0xD.
+	uint8_t Unresearched1[0x12]; // 0xE - 0x1F.
+	uint16_t TownID2; // 0x20 - 0x21.
+	uint16_t TownName2[6]; // 6 Characters is the limit. 0x22 - 0x2D.
+	uint16_t PlayerID; // 0x2E - 0x2F.
+	uint16_t PlayerName[6]; // 6 Characters is the limit. 0x30 - 0x3B.
+	uint8_t Unresearched2[0x4]; // 0x3C - 0x3F.
+	uint16_t Intro[10]; // 10 Characters is the limit. 0x40 - 0x53.
+	uint16_t Body[64]; // 64 Characters is the limit. 0x54 - 0xD3.
+	uint16_t End[16]; // 16 Characters is the limit. 0xD4 - 0xF3.
+	uint8_t Unresearched3; // 0xF4.
+	PaperIDs PaperID; // 0xF5.
+	uint8_t Unresearched4[0x2]; // 0x6 - 0x7.
+	uint16_t Item; // 0xF8 - 0xF9.
+	uint8_t Unresearched5[0x6]; // 0xFA - 0xFF.
+};
