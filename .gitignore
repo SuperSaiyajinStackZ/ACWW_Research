@@ -9,3 +9,4 @@
 *.bin
 ACWW-Utils/3DS/build/sprites.h
 *.t3x
+*.exe
