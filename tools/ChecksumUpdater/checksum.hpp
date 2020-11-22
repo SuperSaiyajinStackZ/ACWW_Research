@@ -34,10 +34,17 @@
 class Checksum {
 public:
 	Checksum(const std::string &FileName);
+
 	void PrintRegion();
-	uint16_t Calculate(bool fixIt = true);
-	bool ChecksumIsValid();
+
+	uint16_t CalculateMain(bool fixIt = true);
+	uint16_t CalculateLetter(bool fixIt = true);
+
+	bool ChecksumMainValid();
+	bool ChecksumLetterValid();
+
 	bool RegionValid() const { return this->Region != WWRegion::UNKNOWN; };
+
 	void WriteBack();
 private:
 	std::string FileName = "";

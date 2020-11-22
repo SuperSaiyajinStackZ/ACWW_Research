@@ -30,6 +30,9 @@
 #include <iostream>
 #include <unistd.h>
 
+static const bool Debug = false;
+
+
 /*
 	Initialisiere die Checksum Klasse.
 
@@ -93,7 +96,7 @@ Checksum::Checksum(const std::string &FileName) : FileName(FileName) {
 	NOTE: (Alle Daten außer des Checksums) + (Der Checksum) müssen 65536 ergeben. Das wäre 1 über
 		  2 byte's maximale Größe und resultiert dann zu 0. Das ist, was das Spiel überprüft.
 */
-uint16_t Checksum::Calculate(bool fixIt) {
+uint16_t Checksum::CalculateMain(bool fixIt) {
 	if (!this->SaveData) return 0; // Speicherdaten müssen gültig sein.
 	if (this->Region == WWRegion::UNKNOWN) return 0; // Region muss bekannt sein.
 
@@ -124,19 +127,72 @@ uint16_t Checksum::Calculate(bool fixIt) {
 		memcpy(this->SaveData.get() + SavCopySizes[(int)this->Region], this->SaveData.get(), SavCopySizes[(int)this->Region]);
 	}
 
+	if (Debug) {
+		std::cout << "ChecksVar: " << ChecksVar << ".\n";
+		std::cout << "Checksum: " << (uint16_t) - ChecksVar << ".\n";
+	}
+
 	return (uint16_t) - ChecksVar; // return 0xFFFF - (ChecksVar - 1); würde auch gehen, falls uint16_t nicht existiert.
 }
 
 /*
-	Überprüfe ob der Checksum gültig ist.
+	Das ist.. quasi das selbe wie oben, nur für die Post-Lagerung im Rathaus.
 */
-bool Checksum::ChecksumIsValid() {
+uint16_t Checksum::CalculateLetter(bool fixIt) {
+	if (!this->SaveData) return 0; // Speicherdaten müssen gültig sein.
+	if (this->Region == WWRegion::UNKNOWN) return 0; // Region muss bekannt sein.
+
+	uint16_t ChecksVar = 0;
+
+	for (uint16_t index = 0; index < (ChecksumLetterSizes[(int)this->Region] / 2); index++) {
+		/* Falls der index dem Checksum offset entspricht, überspringe es. */
+		if (index == (ChecksumLetterOffsets[(int)this->Region] / 2)) continue;
+
+		/*
+			Addiere die Speicherdaten des aktuellen indexes zur Variable.
+			Natürlich mit sizeof(uint16_t) da es 16-bit ausgerichtet ist.
+		*/
+		ChecksVar += *reinterpret_cast<uint16_t *>(this->SaveData.get() + LetterStart[(int)this->Region] + (index * sizeof(uint16_t)));
+	}
+
+	if (fixIt) {
+		/*
+			Schreibe ChecksVar in den Checksum Offset.
+			Natürlich führe die Operation aus, damit der richtige checksum wert rauskommt.
+		*/
+		*reinterpret_cast<uint16_t *>(this->SaveData.get() + 0x3FFFE) = (uint16_t) - ChecksVar;
+	}
+
+	if (Debug) {
+		std::cout << "ChecksVar: " << ChecksVar << ".\n";
+		std::cout << "Checksum: " << (uint16_t) - ChecksVar << ".\n";
+	}
+
+	return (uint16_t) - ChecksVar; // return 0xFFFF - (ChecksVar - 1); würde auch gehen, falls uint16_t nicht existiert.
+}
+
+/*
+	Überprüfe ob der Haupt-Checksum gültig ist.
+*/
+bool Checksum::ChecksumMainValid() {
 	if (!this->SaveData) return false; // Speicherdaten müssen gültig sein.
 	if (this->Region == WWRegion::UNKNOWN) return false; // Region muss bekannt sein.
 
 	/* Falls der aktuelle Checksum der Speicherdaten dem Kalkuliertem entsprechen, ist es gültig. */
-	return (this->Calculate(false) ==
+	return (this->CalculateMain(false) ==
 		*reinterpret_cast<uint16_t *>(this->SaveData.get() + ChecksumOffsets[(int)this->Region]));
+}
+
+/*
+	Überprüfe ob der Checksum der Post-Lagerung gültig ist.
+*/
+bool Checksum::ChecksumLetterValid() {
+	if (!this->SaveData) return false; // Speicherdaten müssen gültig sein.
+	if (this->Region == WWRegion::UNKNOWN) return false; // Region muss bekannt sein.
+
+	/* Falls der aktuelle Checksum der Speicherdaten dem Kalkuliertem entsprechen, ist es gültig. */
+	return (this->CalculateLetter(false) ==
+		*reinterpret_cast<uint16_t *>(this->SaveData.get() + 0x3FFFE));
 }
 
 /*
@@ -160,24 +216,26 @@ void Checksum::PrintRegion() {
 
 	switch(this->Region) {
 		case WWRegion::EUR_USA:
-			std::cout << "Europe | USA.\n";
+			std::cout << "Europe | USA.\n\n\n";
 			break;
 
 		case WWRegion::JPN:
-			std::cout << "Japan.\n";
+			std::cout << "Japan.\n\n\n";
 			break;
 
 		case WWRegion::KOR:
-			std::cout << "Korea.\n";
+			std::cout << "Korea.\n\n\n";
 			break;
 
 		case WWRegion::UNKNOWN:
-			std::cout << "Unbekannt (Ist eventuell kein Animal Crossing: Wild World Speicherstand).\n";
+			std::cout << "Unbekannt (Ist eventuell kein Animal Crossing: Wild World Speicherstand).\n\n\n";
 			break;
 	}
 }
 
 int main(int argc, char *argv[]) {
+	bool needWrite = false;
+
 	std::cout << StartText;
 
 	if (argc > 1) {
@@ -189,15 +247,36 @@ int main(int argc, char *argv[]) {
 
 		checksum->PrintRegion();
 		if (checksum->RegionValid()) {
-			if (!checksum->ChecksumIsValid()) {
-				std::cout << "Der Checksum ist ungueltig! Dieser wird nun behoben...\n";
-				checksum->Calculate(true);
+			std::cout << "Checke Haupt-Checksum...\n";
 
-				std::cout << "Checksum behoben! Schreibe nun zur Datei...\n";
-				checksum->WriteBack();
+			if (!checksum->ChecksumMainValid()) {
+				std::cout << "Der Checksum ist ungueltig! Dieser wird nun behoben...\n";
+				checksum->CalculateMain(true);
+				std::cout << "Der Haupt-Checksum wurde behoben!\n\n\n";
+				needWrite = true;
 
 			} else {
-				std::cout << "Der Checksum ist bereits gueltig!";
+				std::cout << "Der Haupt-Checksum ist gut!\n\n\n";
+			}
+
+			std::cout << "Checke Post-Lagerungs-Checksum...\n";
+			if (!checksum->ChecksumLetterValid()) {
+				std::cout << "Der Checksum ist ungueltig! Dieser wird nun behoben...\n";
+				checksum->CalculateLetter(true);
+				std::cout << "Der Post-Lagerungs-Checksum wurde behoben!\n\n\n";
+				needWrite = true;
+
+			} else {
+				std::cout << "Der Post-Lagerungs-Checksum ist gut!\n\n\n";
+			}
+
+			if (needWrite) {
+				std::cout << "Schreibe nun zur Datei...\n";
+				checksum->WriteBack();
+				std::cout << "Fertig!\n";
+
+			} else {
+				std::cout << "Da alles gut war, muss nichts zur Datei geschrieben werden.\nFertig!\n";
 			}
 
 		} else {

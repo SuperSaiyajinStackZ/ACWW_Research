@@ -46,8 +46,16 @@ enum class WWRegion {
 
 	Europa & USA, Japan, Korea.
 */
+
+/* Haupt Zeug. */
 static const uint32_t ChecksumOffsets[3] = { 0x15FDC, 0x12220, 0x173F8 }; // Checksum Offsets.
 static const uint32_t SavCopySizes[3] = { 0x15FE0, 0x12224, 0x173FC }; // Speicherstand-Kopie Größen.
+
+/* Post-Lagerungs Zeug. */
+static const uint32_t ChecksumLetterOffsets[3] = { 0x11DF2, 0xA412, 0xC802 }; // Post-Lagerung Offsets.
+static const uint32_t LetterStart[3] = { 0x2E20C, 0x35BEC, 0x337FC }; // Post-Lagerung Start Offsets.
+static const uint32_t ChecksumLetterSizes[3] = { 0x11DF4, 0xA414, 0xC804 }; // Post-Lagerung Größen.
+
 static const uint64_t ValidSizes[4] = { 0x40000, 0x4007A, 0x80000, 0x8007A }; // Gültige Größen.
 static const std::string StartText = "Animal Crossing: Wild World Checksum Updater bei SuperSaiyajinStackZ.\n\n\n"; // Der Start-Text.
 
