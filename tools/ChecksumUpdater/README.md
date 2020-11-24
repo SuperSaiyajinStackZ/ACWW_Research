@@ -17,10 +17,10 @@ To compile this, you need a C++17 compatible compiler.
 
 After it, run:
 ```
-g++ main.cpp
+g++ --std=gnu++17 main.cpp
 ```
 
-Now you find a `a.exe` or just `a`, depending on which Operating System you are compiling.
+Now you find a `a.exe`, `a` or `a.out`, depending on which Operating System you are compiling.
 
 
 ## Checksum explained
@@ -47,10 +47,10 @@ Um dies zu kompilieren brauchst du einen C++17 kompatiblen Compiler.
 
 Danach führe einfach folgendes aus:
 ```
-g++ main.cpp
+g++ --std=gnu++17 main.cpp
 ```
 
-Jetzt findest du eine `a.exe` oder einfach nur `a`, kommt darauf an auf welches Betriebssystem du das kompilierst.
+Jetzt findest du eine `a.exe`, `a` oder `a.out`, kommt darauf an auf welches Betriebssystem du das kompilierst.
 
 
 ## Checksum erklärt

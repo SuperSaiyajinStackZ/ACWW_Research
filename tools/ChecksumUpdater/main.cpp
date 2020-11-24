@@ -40,7 +40,7 @@ static const bool Debug = false;
 */
 Checksum::Checksum(const std::string &FileName) : FileName(FileName) {
 	if (access(this->FileName.c_str(), F_OK) != 0) {
-		std::cout << "Die Datei existiert nicht!!\n";
+		std::cout << "The file does not exist!!\n";
 		return;
 	}
 
@@ -212,7 +212,7 @@ void Checksum::WriteBack() {
 	Gebe die erkannte Region aus.
 */
 void Checksum::PrintRegion() {
-	std::cout << "Erkannte Region: ";
+	std::cout << "Detected region: ";
 
 	switch(this->Region) {
 		case WWRegion::EUR_USA:
@@ -220,15 +220,15 @@ void Checksum::PrintRegion() {
 			break;
 
 		case WWRegion::JPN:
-			std::cout << "Japan.\n\n\n";
+			std::cout << "Japanese.\n\n\n";
 			break;
 
 		case WWRegion::KOR:
-			std::cout << "Korea.\n\n\n";
+			std::cout << "Korean.\n\n\n";
 			break;
 
 		case WWRegion::UNKNOWN:
-			std::cout << "Unbekannt (Ist eventuell kein Animal Crossing: Wild World Speicherstand).\n\n\n";
+			std::cout << "Unknown (Is probably not an Animal Crossing: Wild World save).\n\n\n";
 			break;
 	}
 }
@@ -241,50 +241,50 @@ int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		const std::string fileName = argv[1];
 
-		std::cout << "Folgender Parameter wurde erkannt: " << fileName << ".\n";
+		std::cout << "The following parameter got detected: " << fileName << ".\n";
 
 		std::unique_ptr<Checksum> checksum = std::make_unique<Checksum>(fileName);
 
 		checksum->PrintRegion();
 		if (checksum->RegionValid()) {
-			std::cout << "Checke Haupt-Checksum...\n";
+			std::cout << "Check main checksum...\n";
 
 			if (!checksum->ChecksumMainValid()) {
-				std::cout << "Der Checksum ist ungueltig! Dieser wird nun behoben...\n";
+				std::cout << "The main checksum is invalid! This will be fixed now...\n";
 				checksum->CalculateMain(true);
-				std::cout << "Der Haupt-Checksum wurde behoben!\n\n\n";
+				std::cout << "The main checksum got fixed!\n\n\n";
 				needWrite = true;
 
 			} else {
-				std::cout << "Der Haupt-Checksum ist gut!\n\n\n";
+				std::cout << "The main checksum is good!\n\n\n";
 			}
 
-			std::cout << "Checke Post-Lagerungs-Checksum...\n";
+			std::cout << "check letter storage checksum...\n";
 			if (!checksum->ChecksumLetterValid()) {
-				std::cout << "Der Checksum ist ungueltig! Dieser wird nun behoben...\n";
+				std::cout << "The letter storage checksum is invalid! This will be fixed now...\n";
 				checksum->CalculateLetter(true);
-				std::cout << "Der Post-Lagerungs-Checksum wurde behoben!\n\n\n";
+				std::cout << "The letter storage checksum got fixed!\n\n\n";
 				needWrite = true;
 
 			} else {
-				std::cout << "Der Post-Lagerungs-Checksum ist gut!\n\n\n";
+				std::cout << "The letter storage checksum is good!\n\n\n";
 			}
 
 			if (needWrite) {
-				std::cout << "Schreibe nun zur Datei...\n";
+				std::cout << "Writing to file...\n";
 				checksum->WriteBack();
-				std::cout << "Fertig!\n";
+				std::cout << "Done!\n";
 
 			} else {
-				std::cout << "Da alles gut war, muss nichts zur Datei geschrieben werden.\nFertig!\n";
+				std::cout << "Because everything is good, nothing needs to be written to file.\nDone!\n";
 			}
 
 		} else {
-			std::cout << "Die Region wurde nicht erkannt.\nIst das wirklich ein Animal Crossing: Wild World Speicherstand?\n";
+			std::cout << "The region was not able to be detected.\nIs this really an Animal Crossing: Wild World Save?\n";
 		}
 
 	} else {
-		std::cout << "Du hast keinen Parameter uebergeben!! Bitte ziehe deinen Speicherstand auf die Anwendung.\n";
+		std::cout << "You didn't provided a parameter!! Please drag and drop your savefile to the executable.\n";
 	}
 
 	std::string End;
