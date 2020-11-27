@@ -12,6 +12,7 @@ How to use it? It is simple!!
 
 Just drag and drop your Savefile into the executable.. and it checks and such for you.
 
+
 ## Compilation
 To compile this, you need a C++17 compatible compiler.
 

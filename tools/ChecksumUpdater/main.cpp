@@ -51,37 +51,23 @@ Checksum::Checksum(const std::string &FileName) : FileName(FileName) {
 		this->SaveSize = ftell(in); // Erhalte die Datei-Größe.
 		fseek(in, 0, SEEK_SET);
 
-		/* Überprüfe für korrekte Größen. */
-		for (uint8_t i = 0; i < 4; i++) {
-			if (this->SaveSize == ValidSizes[i]) {
-				this->SaveValid = true;
-				break;
-			}
-		}
+		switch(this->SaveSize) {
+			/* Gültige Speicher-Größen. */
+			case 0x40000:
+			case 0x4007A:
+			case 0x80000:
+			case 0x8007A:
+				this->SaveData = std::unique_ptr<uint8_t[]>(new uint8_t[this->SaveSize]);
+				fread(this->SaveData.get(), 1, this->SaveSize, in);
 
-		if (this->SaveValid) {
-			this->SaveData = std::unique_ptr<uint8_t[]>(new uint8_t[this->SaveSize]);
-			fread(this->SaveData.get(), 1, this->SaveSize, in);
+				for (uint8_t i = 0; i < 4; i++) {
+					if (SaveData.get()[0] == Codes[i] && SaveData.get()[SavCopyOffsets[i]] == Codes[i]) {
+						this->Region = (WWRegion)i;
+						break;
+					}
+				}
 
-			/*
-				Überprüfe nun für die Region.
-
-				Dies überprüft aktuell die ersten 2 byte mit dem Start der zweiten Speicher-Kopie.
-				NOTE: Unsicher ob das immer klappt.
-			*/
-
-			/* Japan. */
-			if (memcmp(this->SaveData.get() + SavCopySizes[1], this->SaveData.get(), sizeof(uint16_t)) == 0) {
-				this->Region = WWRegion::JPN;
-
-			/* Europa und USA. */
-			} else if (memcmp(this->SaveData.get() + SavCopySizes[0], this->SaveData.get(), sizeof(uint16_t)) == 0) {
-				this->Region = WWRegion::EUR_USA;
-
-			/* Korea. */
-			} else if (memcmp(this->SaveData.get() + SavCopySizes[2], this->SaveData.get(), sizeof(uint16_t)) == 0) {
-				this->Region = WWRegion::KOR;
-			}
+			break;
 		}
 
 		fclose(in);
@@ -215,8 +201,12 @@ void Checksum::PrintRegion() {
 	std::cout << "Detected region: ";
 
 	switch(this->Region) {
-		case WWRegion::EUR_USA:
-			std::cout << "Europe | USA.\n\n\n";
+		case WWRegion::EUR:
+			std::cout << "Europe.\n\n\n";
+			break;
+
+		case WWRegion::USA:
+			std::cout << "USA.\n\n\n";
 			break;
 
 		case WWRegion::JPN:
@@ -289,5 +279,6 @@ int main(int argc, char *argv[]) {
 
 	std::string End;
 	std::cin >> End;
+
 	return 0;
 }

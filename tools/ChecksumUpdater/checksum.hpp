@@ -51,7 +51,6 @@ private:
 	WWRegion Region = WWRegion::UNKNOWN;
 	std::unique_ptr<uint8_t[]> SaveData = nullptr;
 	uint32_t SaveSize = 0;
-	bool SaveValid = false;
 };
 
 #endif
