@@ -6,9 +6,11 @@ If you are interested into the research work, please take a look at the [wiki](h
 You can find a few tools i created for AC:WW inside the `tools` directory.
 
 ## Save Editors which may use my research work soon
-- [LeafEdit](https://github.com/Universal-Team/LeafEdit) + [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core): An Animal Crossing Wild World, New Leaf and Happy Home Designer Save Editor for the Nintendo 3DS!
+- [ACWW Web Save Editor](https://github.com/Universal-Team/ACWW-Web-SaveEditor): A work in progress Animal Crossing: Wild World Web Save Editor made in Javascript & HTML.
 
-- [WildEdit](https://github.com/Universal-Team/LeafEdit): An Animal Crossing: Wild World Save Editor for the Nintendo DS(i)!
+- [LeafEdit](https://github.com/Universal-Team/LeafEdit) + [LeafEdit-Core](https://github.com/Universal-Team/LeafEdit-Core): An Animal Crossing Wild World, New Leaf and Happy Home Designer Save Editor for the Nintendo 3DS made in C++.
+
+- [WildEdit](https://github.com/Universal-Team/LeafEdit): An Animal Crossing: Wild World Save Editor for the Nintendo DS(i) made in C++.
 
 ## Contributors
 - [LeafEdit-Core Contributors](https://github.com/Universal-Team/LeafEdit-Core)

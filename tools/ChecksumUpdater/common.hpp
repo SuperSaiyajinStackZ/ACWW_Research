@@ -59,6 +59,6 @@ static const uint32_t ChecksumLetterOffsets[4] = { 0x11DF2, 0x11DF2, 0xA412, 0xC
 static const uint32_t LetterStart[4] = { 0x2E20C, 0x2E20C, 0x35BEC, 0x337FC }; // Post-Lagerung Start Offsets.
 static const uint32_t ChecksumLetterSizes[4] = { 0x11DF4, 0x11DF4,  0xA414, 0xC804 }; // Post-Lagerung Größen.
 
-static const std::string StartText = "Animal Crossing: Wild World Checksum Updater by SuperSaiyajinStackZ.\n\n\n"; // Der Start-Text.
+static const std::string StartText = "Animal Crossing: Wild World Checksum Updater v1.0 by SuperSaiyajinStackZ.\n\n\n"; // Der Start-Text.
 
 #endif

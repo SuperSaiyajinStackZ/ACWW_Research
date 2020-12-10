@@ -43,7 +43,7 @@ Regions Region = Regions::UNKNOWN;
 const uint8_t Codes[4] = { 0xC5, 0x8A, 0x32, 0x32 }; // Die Spielcodes.
 const int SavCopyOffsets[4] = { 0x15FE0, 0x15FE0, 0x12224, 0x173FC }; // Die Speicher-Kopie Offsets.
 std::unique_ptr<uint8_t[]> SaveData = nullptr;
-const std::string StartText = "Animal Crossing: Wild World Save Detector by SuperSaiyajinStackZ.\n\n\n"; // Der Start-Text.
+const std::string StartText = "Animal Crossing: Wild World Save Detector v1.0 by SuperSaiyajinStackZ.\n\n\n"; // Der Start-Text.
 
 void LoadSave(const std::string &FileName) {
 	if (access(FileName.c_str(), F_OK) != 0) {

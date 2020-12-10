@@ -118,7 +118,7 @@ uint16_t Checksum::CalculateMain(bool fixIt) {
 		std::cout << "Checksum: " << (uint16_t) - ChecksVar << ".\n";
 	}
 
-	return (uint16_t) - ChecksVar; // return 0xFFFF - (ChecksVar - 1); würde auch gehen, falls uint16_t nicht existiert.
+	return (uint16_t) - ChecksVar; // return 0x10000 - ChecksVar; würde auch gehen, falls der Datentyp uint16_t (2 byte) nicht existiert.
 }
 
 /*
@@ -154,7 +154,7 @@ uint16_t Checksum::CalculateLetter(bool fixIt) {
 		std::cout << "Checksum: " << (uint16_t) - ChecksVar << ".\n";
 	}
 
-	return (uint16_t) - ChecksVar; // return 0xFFFF - (ChecksVar - 1); würde auch gehen, falls uint16_t nicht existiert.
+	return (uint16_t) - ChecksVar; // return 0x10000 - ChecksVar; würde auch gehen, falls der Datentyp uint16_t (2 byte) nicht existiert.
 }
 
 /*
