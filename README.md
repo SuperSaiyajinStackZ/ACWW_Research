@@ -1,7 +1,7 @@
 # ACWW-Research
 Here you can find my (and probably from other contributors as well) research work of AC:WW.
 
-If you are interested into the research work, please take a look at the [wiki](https://github.com/SuperSaiyajinStackZ/ACWW_Research/wiki).
+If you are interested into the Save Research structures, take a look [here](https://wiki.universal-team.net/acww-research/index.html). It has been moved to the Universal-Team site.
 
 You can find a few tools i created for AC:WW inside the `tools` directory.
 
